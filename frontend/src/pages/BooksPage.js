@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import BookList from '../components/Books/BookList';
 import BookForm from '../components/Books/BookForm';
 import './BooksPage.css';
@@ -7,6 +7,7 @@ const BooksPage = () => {
     const [showForm, setShowForm] = useState(false);
     const [editingBook, setEditingBook] = useState(null);
     const [refreshKey, setRefreshKey] = useState(0);
+    const formRef = useRef(null);
 
     const handleAddBook = () => {
         setEditingBook(null);
@@ -30,11 +31,17 @@ const BooksPage = () => {
         setEditingBook(null);
     };
 
+    useEffect(() => {
+        if (showForm && formRef.current) {
+            formRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }, [showForm]);
+
     return (
         <div className="books-page">
             <div className="page-header">
                 <h1>📚 Gestion des Livres</h1>
-                <button 
+                <button
                     className="btn btn-primary"
                     onClick={handleAddBook}
                 >
@@ -43,10 +50,10 @@ const BooksPage = () => {
             </div>
 
             {showForm && (
-                <div className="form-modal">
+                <div className="form-modal" ref={formRef}>
                     <div className="form-overlay" onClick={handleCancel}></div>
                     <div className="form-content">
-                        <BookForm 
+                        <BookForm
                             bookId={editingBook?.id}
                             onSave={handleSaveBook}
                             onCancel={handleCancel}
@@ -55,7 +62,7 @@ const BooksPage = () => {
                 </div>
             )}
 
-            <BookList 
+            <BookList
                 key={refreshKey}
                 onEdit={handleEditBook}
             />

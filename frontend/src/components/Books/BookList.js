@@ -5,7 +5,7 @@ import SearchBar from '../common/SearchBar';
 import LoadingSpinner from '../common/LoadingSpinner';
 import './BookList.css';
 
-const BookListAdvanced = () => {
+const BookListAdvanced = ({ onEdit }) => {
     const [books, setBooks] = useState([]);
     const [authors, setAuthors] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -43,8 +43,7 @@ const BookListAdvanced = () => {
             setLoading(false);
         }
     };
-
-    const filterBooks = useCallback(() => {
+const filterBooks = useCallback(() => {
         if (!searchTerm.trim()) {
             setFilteredBooks(books);
             return;
@@ -127,6 +126,7 @@ const BookListAdvanced = () => {
                                     ...book,
                                     authorInfo
                                 }}
+                                onEdit={onEdit}
                                 onDelete={handleDeleteBook}
                             />
                         );

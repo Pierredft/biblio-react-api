@@ -1,7 +1,7 @@
 import React from 'react';
 import './BookCard.css';
 
-const BookCard = ({ book, onDelete }) => {
+const BookCard = ({ book, onDelete, onEdit }) => {
     // Extraire les informations de l'auteur depuis authorInfo
     const getAuthorName = (authorInfo) => {
         if (authorInfo && authorInfo.firstName) {
@@ -44,7 +44,8 @@ const BookCard = ({ book, onDelete }) => {
             </div>
             
             <div className="book-actions">
-                <button className="btn btn-edit">
+                <button className="btn btn-edit"
+                onClick={() => onEdit(book)}>
                     ✏️ Modifier
                 </button>
                 <button 
